@@ -1,0 +1,169 @@
+@use "functions" as *;
+@use "mixins" as *;
+@use "reset";
+
+:root {
+  font-size: 16px;
+
+  @include respond-to(tablet) {
+    font-size: 15px;
+  }
+
+  @include respond-to(mobile) {
+    font-size: 14px;
+  }
+}
+
+/**
+ * GLOBAL STYLES
+ * Netflix Clone Theme
+ */
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
+  width: 100%;
+  font-family: $font-body;
+  background-color: colormap(bg_primary);
+  color: colormap(text_primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+// Typography
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $font-heading;
+  color: colormap(text_primary);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.5em;
+}
+
+h1 {
+  font-size: 3rem;
+
+  @include respond-to(mobile) {
+    font-size: 2rem;
+  }
+}
+
+h2 {
+  font-size: 2rem;
+
+  @include respond-to(mobile) {
+    font-size: 1.5rem;
+  }
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+}
+
+p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: colormap(text_secondary);
+  margin-bottom: 1em;
+}
+
+a {
+  color: colormap(text_primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: colormap(text_secondary);
+  }
+}
+
+// Form Elements
+input,
+select,
+textarea {
+  font-family: $font-body;
+  border: 1px solid transparent; // Netflix inputs often have no border unless focused or error
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  background: colormap(bg_input);
+  font-size: 1rem;
+  color: colormap(text_primary);
+  width: 100%;
+  transition: all 0.2s ease;
+
+  &::placeholder {
+    color: #8c8c8c;
+  }
+
+  &:focus {
+    outline: none;
+    background: #454545;
+    border-bottom: 2px solid colormap(netflix_red);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  padding: 0;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+// Standard Utilities
+.container {
+  max-width: $max-width-content;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  width: 100%;
+
+  @include respond-to(mobile) {
+    padding: 0 1rem;
+  }
+}
+
+// Selection
+::selection {
+  background: colormap(netflix_red);
+  color: colormap(text_primary);
+}
+
+// Custom Scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: colormap(bg_secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+
+  &:hover {
+    background: #888;
+  }
+}

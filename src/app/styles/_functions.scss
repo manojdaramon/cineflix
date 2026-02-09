@@ -1,0 +1,100 @@
+@use "sass:map";
+@use "sass:math";
+
+// =====================================================
+// BREAKPOINTS
+// =====================================================
+$desktop: 90rem; // 1440px
+$laptop: 80rem; // 1280px
+$tablet: 64rem; // 1024px
+$tablet-sm: 48rem; // 768px
+$mobile: 36rem; // 576px
+$mobile-sm: 23.4375rem; // 375px
+
+// =====================================================
+// FONTS
+// =====================================================
+$font-heading: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-mono: 'Courier New', Courier, monospace;
+
+// =====================================================
+// LAYOUT
+// =====================================================
+$max-width-content: 115rem; // Wide for Netflix style
+$header-height: 4.5rem;
+
+// =====================================================
+// COLOR MAP
+// =====================================================
+$colors: (
+    // Base Colors
+    netflix_red: #E50914,
+    netflix_red_dark: #B20710,
+    netflix_black: #141414,
+    netflix_white: #FFFFFF,
+
+    // Backgrounds
+    bg_primary: #141414,
+    bg_secondary: #181818,
+    bg_tertiary: #2F2F2F,
+    bg_overlay: rgba(0, 0, 0, 0.5),
+    bg_overlay_dark: rgba(0, 0, 0, 0.8),
+    bg_input: #333333,
+
+    // Text
+    text_primary: #FFFFFF,
+    text_secondary: #B3B3B3,
+    text_muted: #6D6D6E,
+    text_link: #FFFFFF,
+    text_black: #000000,
+    text_error: #E87C03,
+
+    // Borders
+    border_light: #404040,
+    border_focus: #E50914,
+    border_input: #333333,
+    border_white_transparent: rgba(255, 255, 255, 0.3),
+
+    // Status / Feedback
+    status_success: #46D369,
+    status_warning: #F59E0B,
+    status_error: #E87C03
+);
+
+// =====================================================
+// FUNCTIONS
+// =====================================================
+
+// Color Getter
+@function colormap($color-name) {
+    @if map.has-key($colors, $color-name) {
+        @return map.get($colors, $color-name);
+    }
+
+    @else {
+        @error "Color `#{$color-name}` not found in the colors map.";
+    }
+}
+
+// Pixel to Rem
+@function rem($pixel) {
+    @if math.is-unitless($pixel) {
+        @return math.div($pixel, 16)+rem;
+    }
+
+    @else {
+        @error "Don't use units when using the rem() function; only numbers.";
+    }
+}
+
+// Pixel to Em
+@function em($pixel) {
+    @if math.is-unitless($pixel) {
+        @return math.div($pixel, 16)+em;
+    }
+
+    @else {
+        @error "Don't use units when using the em() function; only numbers.";
+    }
+}
