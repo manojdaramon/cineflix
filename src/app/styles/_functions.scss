@@ -14,8 +14,8 @@ $mobile-sm: 23.4375rem; // 375px
 // =====================================================
 // FONTS
 // =====================================================
-$font-heading: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-$font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-heading: var(--font-inter), 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-body: var(--font-inter), 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $font-mono: 'Courier New', Courier, monospace;
 
 // =====================================================
@@ -29,37 +29,37 @@ $header-height: 4.5rem;
 // =====================================================
 $colors: (
     // Base Colors
-    netflix_red: #E50914,
-    netflix_red_dark: #B20710,
-    netflix_black: #141414,
-    netflix_white: #FFFFFF,
+    cf_netflix_red: #E50914,
+    cf_netflix_red_dark: #B20710,
+    cf_netflix_black: #141414,
+    cf_netflix_white: #FFFFFF,
 
     // Backgrounds
-    bg_primary: #141414,
-    bg_secondary: #181818,
-    bg_tertiary: #2F2F2F,
-    bg_overlay: rgba(0, 0, 0, 0.5),
-    bg_overlay_dark: rgba(0, 0, 0, 0.8),
-    bg_input: #333333,
+    cf_bg_primary: #141414,
+    cf_bg_secondary: #181818,
+    cf_bg_tertiary: #2F2F2F,
+    cf_bg_overlay: rgba(0, 0, 0, 0.5),
+    cf_bg_overlay_dark: rgba(0, 0, 0, 0.8),
+    cf_bg_input: #333333,
 
     // Text
-    text_primary: #FFFFFF,
-    text_secondary: #B3B3B3,
-    text_muted: #6D6D6E,
-    text_link: #FFFFFF,
-    text_black: #000000,
-    text_error: #E87C03,
+    cf_text_primary: #FFFFFF,
+    cf_text_secondary: #B3B3B3,
+    cf_text_muted: #6D6D6E,
+    cf_text_link: #FFFFFF,
+    cf_text_black: #000000,
+    cf_text_error: #E87C03,
 
     // Borders
-    border_light: #404040,
-    border_focus: #E50914,
-    border_input: #333333,
-    border_white_transparent: rgba(255, 255, 255, 0.3),
+    cf_border_light: #404040,
+    cf_border_focus: #E50914,
+    cf_border_input: #333333,
+    cf_border_white_transparent: rgba(255, 255, 255, 0.3),
 
     // Status / Feedback
-    status_success: #46D369,
-    status_warning: #F59E0B,
-    status_error: #E87C03
+    cf_status_success: #46D369,
+    cf_status_warning: #F59E0B,
+    cf_status_error: #E87C03
 );
 
 // =====================================================

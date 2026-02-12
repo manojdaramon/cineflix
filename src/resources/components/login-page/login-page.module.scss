@@ -1,0 +1,138 @@
+@use "../../../app/styles/functions" as *;
+@use "../../../app/styles/mixins" as *;
+
+// =====================================================
+// LOGIN PAGE — Netflix-style with Background Image
+// =====================================================
+
+.cf_login_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+    padding: 1.5rem;
+    background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
+        url("/images/login-bg.jpg") center / cover no-repeat;
+}
+
+.cf_login_card {
+    width: 100%;
+    max-width: 28rem;
+    background-color: rgba(0, 0, 0, 0.55);
+    border-radius: 4px;
+    padding: 3.5rem 4rem 2.5rem;
+    backdrop-filter: blur(2px);
+
+    @include respond-to(mobile) {
+        padding: 2rem 1.5rem 1.5rem;
+        max-width: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+}
+
+/* ===============================
+   Header
+================================= */
+
+.cf_login_header {
+    margin-bottom: 1.75rem;
+
+    h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: colormap(cf_text_primary);
+        margin: 0;
+    }
+}
+
+/* ===============================
+   Auth Error
+================================= */
+
+.cf_auth_error {
+    background-color: colormap(cf_status_error);
+    color: colormap(cf_text_primary);
+    padding: 0.625rem 1.25rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+}
+
+/* ===============================
+   Submit Button
+================================= */
+
+.cf_submit_btn {
+    width: 100%;
+    padding: 0.875rem;
+    margin-top: 1.5rem;
+    background-color: colormap(cf_netflix_red);
+    color: colormap(cf_text_primary);
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 200ms ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    &:hover {
+        background-color: colormap(cf_netflix_red_dark);
+    }
+
+    &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+}
+
+/* ===============================
+   Spinner
+================================= */
+
+.cf_spinner {
+    display: inline-block;
+    width: 1.125rem;
+    height: 1.125rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: colormap(cf_text_primary);
+    border-radius: 50%;
+    animation: cf_spin 0.6s linear infinite;
+}
+
+@keyframes cf_spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===============================
+   Footer
+================================= */
+
+.cf_login_footer {
+    margin-top: 1rem;
+    text-align: center;
+
+    p {
+        font-size: 1rem;
+        color: colormap(cf_text_secondary);
+        margin: 0;
+    }
+
+    a,
+    span {
+        color: colormap(cf_text_primary);
+        font-weight: 600;
+        cursor: pointer;
+        transition: color 200ms ease;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

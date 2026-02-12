@@ -1,0 +1,99 @@
+@use "./functions" as *;
+@use "./mixins" as *;
+
+.cf_form_group {
+    margin-bottom: 1rem;
+    position: relative;
+    width: 100%;
+
+    .cf_label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: colormap(cf_text_primary);
+    }
+
+    .cf_input_wrapper {
+        position: relative;
+        width: 100%;
+    }
+
+    input,
+    textarea {
+        width: 100%;
+        padding: 0.7rem 1rem;
+        background-color: colormap(cf_bg_input);
+        border: 1px solid transparent; // Netflix inputs are borderless unless focused/error
+        border-radius: 4px; // Use 4px for Netflix style
+        font-size: 1rem; // Netflix uses slightly larger text
+        color: colormap(cf_text_primary);
+        font-family: inherit;
+        box-shadow: none;
+        transition: all 200ms ease;
+
+        &:focus {
+            background-color: colormap(cf_bg_secondary);
+            outline: none;
+            border-bottom: 2px solid colormap(cf_netflix_red); // Netflix focus style
+        }
+
+        &::placeholder {
+            color: colormap(cf_text_secondary); // Using secondary for placeholder
+            opacity: 0.8;
+        }
+
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus,
+        &:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 100px colormap(cf_bg_input) inset !important;
+            -webkit-text-fill-color: colormap(cf_text_primary) !important;
+            caret-color: colormap(cf_text_primary);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: colormap(cf_bg_tertiary);
+        }
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 8rem;
+    }
+
+    .cf_visibility_toggle {
+        position: absolute;
+        right: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        padding: 0.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: colormap(cf_text_secondary);
+        z-index: 1;
+        cursor: pointer;
+
+        svg {
+            width: 1.125rem;
+            height: 1.125rem;
+        }
+
+        &:hover {
+            color: colormap(cf_text_primary);
+        }
+    }
+
+    .cf_field_error {
+        display: block;
+        margin-top: 0.375rem;
+        font-size: 0.8125rem;
+        color: colormap(cf_status_error);
+        font-weight: 500;
+    }
+}

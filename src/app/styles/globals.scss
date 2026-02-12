@@ -26,8 +26,8 @@ body {
   min-height: 100vh;
   width: 100%;
   font-family: $font-body;
-  background-color: colormap(bg_primary);
-  color: colormap(text_primary);
+  background-color: colormap(cf_bg_primary);
+  color: colormap(cf_text_primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -41,7 +41,7 @@ h4,
 h5,
 h6 {
   font-family: $font-heading;
-  color: colormap(text_primary);
+  color: colormap(cf_text_primary);
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 0.5em;
@@ -74,17 +74,17 @@ h4 {
 p {
   font-size: 1rem;
   line-height: 1.6;
-  color: colormap(text_secondary);
+  color: colormap(cf_text_secondary);
   margin-bottom: 1em;
 }
 
 a {
-  color: colormap(text_primary);
+  color: colormap(cf_text_primary);
   text-decoration: none;
   transition: color 0.2s ease;
 
   &:hover {
-    color: colormap(text_secondary);
+    color: colormap(cf_text_secondary);
   }
 }
 
@@ -96,9 +96,9 @@ textarea {
   border: 1px solid transparent; // Netflix inputs often have no border unless focused or error
   border-radius: 4px;
   padding: 0.75rem 1rem;
-  background: colormap(bg_input);
+  background: colormap(cf_bg_input);
   font-size: 1rem;
-  color: colormap(text_primary);
+  color: colormap(cf_text_primary);
   width: 100%;
   transition: all 0.2s ease;
 
@@ -109,7 +109,7 @@ textarea {
   &:focus {
     outline: none;
     background: #454545;
-    border-bottom: 2px solid colormap(netflix_red);
+    border-bottom: 2px solid colormap(cf_netflix_red);
   }
 
   &:disabled {
@@ -145,8 +145,8 @@ button {
 
 // Selection
 ::selection {
-  background: colormap(netflix_red);
-  color: colormap(text_primary);
+  background: colormap(cf_netflix_red);
+  color: colormap(cf_text_primary);
 }
 
 // Custom Scrollbar
@@ -156,7 +156,7 @@ button {
 }
 
 ::-webkit-scrollbar-track {
-  background: colormap(bg_secondary);
+  background: colormap(cf_bg_secondary);
 }
 
 ::-webkit-scrollbar-thumb {
