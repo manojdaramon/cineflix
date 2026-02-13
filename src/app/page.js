@@ -1,12 +1,15 @@
-import { auth, signOut } from "@/auth";
-import Link from "next/link";
-import styles from "./page.module.css";
+"use client";
 
-export default async function Home() {
-  const session = await auth();
+import { useAuth } from "@/resources/context/auth-context";
+import Login from "@/resources/components/login-page";
+import HomePage from "@/resources/components/home-page";
 
-  return (
-    <p>hello</p>
+export default function Home() {
+  const { user, loading } = useAuth();
 
-  );
+  if (loading) {
+    return null;
+  }
+
+  return user ? <HomePage /> : <Login />;
 }

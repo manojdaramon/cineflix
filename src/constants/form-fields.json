@@ -1,5 +1,14 @@
 {
     "loginFields": {
+        "fullName": {
+            "type": "text",
+            "placeholder": "Full Name",
+            "autoComplete": "name",
+            "signUpOnly": true,
+            "validation": {
+                "required": "Full name is required"
+            }
+        },
         "email": {
             "type": "email",
             "placeholder": "Email address",
