@@ -7,13 +7,14 @@ import React, { useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { signIn } from "next-auth/react";
+import toast from "react-hot-toast";
 import {
     createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signInWithPopup,
+    sendPasswordResetEmail,
     updateProfile,
 } from "firebase/auth";
-import { auth, googleProvider } from "@/resources/components/firebase/firebase";
+import { auth } from "@/resources/components/firebase/firebase";
 
 /** Local imports */
 import CustomInput from "@/resources/components/form-utilities/custom-input";
@@ -62,8 +63,6 @@ const getFirebaseErrorMessage = (code) => {
 const Login = () => {
     const [isSignUp, setIsSignUp] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [authError, setAuthError] = useState("");
-    const [successMessage, setSuccessMessage] = useState("");
 
     const schema = useMemo(() => getSchema(isSignUp), [isSignUp]);
 
@@ -76,46 +75,80 @@ const Login = () => {
         resolver: yupResolver(schema),
     });
 
-    /** Email / Password — Sign Up or Sign In */
+    /**
+     * Email / Password — Sign Up or Sign In
+     *
+     * Sign-Up: Uses Firebase directly (NextAuth doesn't handle registration),
+     *          then auto-signs-in via NextAuth.
+     * Sign-In: Uses NextAuth's signIn("credentials") which calls the
+     *          authorize() function in auth.js → Firebase validation.
+     */
     const onSubmit = async (data) => {
-        setAuthError("");
-        setSuccessMessage("");
         setIsLoading(true);
 
         try {
             if (isSignUp) {
+                // Step 1: Create the user in Firebase
                 const userCredential = await createUserWithEmailAndPassword(
                     auth,
                     data.email,
                     data.password
                 );
 
-                // Save the display name
+                // Step 2: Save the display name
                 if (data.fullName) {
                     await updateProfile(userCredential.user, {
                         displayName: data.fullName,
                     });
                 }
+
+                // Step 3: Auto sign-in via NextAuth after registration
+                const result = await signIn("credentials", {
+                    email: data.email,
+                    password: data.password,
+                    redirect: false,
+                });
+
+                if (result?.error) {
+                    toast.error("Account created but auto sign-in failed. Please sign in manually.");
+                } else {
+                    // Redirect to home on success
+                    window.location.href = "/";
+                }
             } else {
-                await signInWithEmailAndPassword(auth, data.email, data.password);
+                // Sign in via NextAuth → calls authorize() in auth.js
+                const result = await signIn("credentials", {
+                    email: data.email,
+                    password: data.password,
+                    redirect: false,
+                });
+
+                if (result?.error) {
+                    toast.error("Invalid credentials. Please try again.");
+                } else {
+                    // Redirect to home on success
+                    window.location.href = "/";
+                }
             }
         } catch (err) {
-            setAuthError(getFirebaseErrorMessage(err.code));
+            toast.error(getFirebaseErrorMessage(err.code));
         } finally {
             setIsLoading(false);
         }
     };
 
-    /** Google Sign-In */
+    /**
+     * Google Sign-In via NextAuth
+     * Redirects to Google's OAuth consent screen.
+     * On success, NextAuth handles the callback and sets the session cookie.
+     */
     const handleGoogleSignIn = async () => {
-        setAuthError("");
         setIsLoading(true);
 
         try {
-            await signInWithPopup(auth, googleProvider);
+            await signIn("google", { callbackUrl: "/" });
         } catch (err) {
-            setAuthError(getFirebaseErrorMessage(err.code));
-        } finally {
+            toast.error("Google sign-in failed. Please try again.");
             setIsLoading(false);
         }
     };
@@ -127,13 +160,7 @@ const Login = () => {
                     <h1>{isSignUp ? "Sign Up" : "Sign In"}</h1>
                 </header>
 
-                {authError && (
-                    <div className={styles.cf_auth_error}>{authError}</div>
-                )}
 
-                {successMessage && (
-                    <div className={styles.cf_auth_success}>{successMessage}</div>
-                )}
 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {Object.entries(loginFields)
@@ -166,12 +193,39 @@ const Login = () => {
                     </button>
                 </form>
 
+                {!isSignUp && (
+                    <button
+                        type="button"
+                        className={styles.cf_forgot_password}
+                        disabled={isLoading}
+                        onClick={async () => {
+                            const email = document.querySelector('input[name="email"]')?.value;
+                            if (!email) {
+                                toast.error("Please enter your email address first.");
+                                return;
+                            }
+
+                            setIsLoading(true);
+                            try {
+                                await sendPasswordResetEmail(auth, email);
+                                toast.success("Password reset email sent! Check your inbox.");
+                            } catch (err) {
+                                toast.error(getFirebaseErrorMessage(err.code));
+                            } finally {
+                                setIsLoading(false);
+                            }
+                        }}
+                    >
+                        Forgot Password?
+                    </button>
+                )}
+
                 {/* ---- OR divider ---- */}
                 <div className={styles.cf_divider}>
                     <span>OR</span>
                 </div>
 
-                {/* Google sign-in */}
+                {/* Google sign-in via NextAuth */}
                 <button
                     type="button"
                     className={styles.cf_google_btn}
@@ -193,8 +247,6 @@ const Login = () => {
                         <span
                             onClick={() => {
                                 setIsSignUp(!isSignUp);
-                                setAuthError("");
-                                setSuccessMessage("");
                                 reset();
                             }}
                         >

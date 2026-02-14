@@ -98,6 +98,29 @@
             }
         }
 
+        // Forgot Password
+        .cf_forgot_password {
+            display: block;
+            margin: 0.75rem 0 0 auto;
+            background: none;
+            border: none;
+            color: colormap(cf_text_secondary);
+            font-size: 0.875rem;
+            cursor: pointer;
+            padding: 0;
+            transition: color 200ms ease;
+
+            &:hover {
+                color: colormap(cf_text_primary);
+                text-decoration: underline;
+            }
+
+            &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+        }
+
         // OR Divider
         .cf_divider {
             display: flex;

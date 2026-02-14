@@ -14,7 +14,7 @@ const HomePage = () => {
                 <h2 className={styles.cf_logo}>CINEFLIX</h2>
                 <div className={styles.cf_nav_right}>
                     <span className={styles.cf_user_name}>
-                        {user?.displayName || user?.email}
+                        {user?.name || user?.email}
                     </span>
                     <button
                         className={styles.cf_signout_btn}

@@ -1,15 +1,12 @@
-"use client";
-
-import { useAuth } from "@/resources/context/auth-context";
-import Login from "@/resources/components/login-page";
 import HomePage from "@/resources/components/home-page";
 
+/**
+ * Home page — server component.
+ *
+ * The middleware already ensures only authenticated users can reach this page.
+ * HomePage is a "use client" component that reads user info from useAuth() context,
+ * so we just render it here — no need to pass props.
+ */
 export default function Home() {
-  const { user, loading } = useAuth();
-
-  if (loading) {
-    return null;
-  }
-
-  return user ? <HomePage /> : <Login />;
+  return <HomePage />;
 }

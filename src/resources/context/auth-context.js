@@ -1,26 +1,24 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { onAuthStateChanged, signOut as firebaseSignOut } from "firebase/auth";
-import { auth } from "@/resources/components/firebase/firebase";
+import React, { createContext, useContext } from "react";
+import { useSession, signOut as nextAuthSignOut } from "next-auth/react";
 
 const AuthContext = createContext(null);
 
+/**
+ * AuthProvider — wraps the NextAuth session in a familiar context.
+ *
+ * Keeps the same useAuth() API your components already use,
+ * but reads from NextAuth's session instead of Firebase onAuthStateChanged.
+ */
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const { data: session, status } = useSession();
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-            setLoading(false);
-        });
-
-        return () => unsubscribe();
-    }, []);
+    const user = session?.user ?? null;
+    const loading = status === "loading";
 
     const signOut = async () => {
-        await firebaseSignOut(auth);
+        await nextAuthSignOut({ redirectTo: "/login" });
     };
 
     return (
