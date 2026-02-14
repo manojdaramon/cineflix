@@ -33,6 +33,10 @@ body {
   overflow-x: hidden;
 }
 
+.cf_app_container {
+  @include container;
+}
+
 // Typography
 h1,
 h2,

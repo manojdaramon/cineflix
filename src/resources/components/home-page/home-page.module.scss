@@ -2,12 +2,13 @@
 @use "../../../app/styles/mixins" as *;
 
 // =====================================================
-// HOME PAGE — Netflix-style
+// HOME PAGE — Netflix-style Now Playing
 // =====================================================
 
 .cf_home_wrapper {
     min-height: 100vh;
     width: 100%;
+    padding-top: $header-height; // Push content below the fixed navbar
     background-color: colormap(cf_bg_primary);
     color: colormap(cf_text_primary);
 }
@@ -26,6 +27,11 @@
     left: 0;
     right: 0;
     z-index: 100;
+    transition: background 300ms ease;
+
+    &.cf_home_nav_scrolled {
+        background: colormap(cf_bg_primary);
+    }
 
     @include respond-to(mobile) {
         padding: 0.75rem 1.25rem;
@@ -75,31 +81,73 @@
     }
 }
 
-// ── Hero Section ────────────────────────────────────
+// ── Hero Section — Featured Movie with Trailer ─────
 .cf_hero {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    padding: 6rem 3rem 3rem;
-    background: linear-gradient(to top,
-            colormap(cf_bg_primary) 0%,
-            transparent 60%),
-        linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-        url("/images/login-bg.jpg") center / cover no-repeat;
+    position: relative;
+    min-height: 85vh;
+    overflow: hidden;
 
     @include respond-to(mobile) {
-        padding: 5rem 1.5rem 2rem;
+        min-height: 60vh;
     }
 
+    // YouTube video container — fills entire hero
+    .cf_video_container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 120%; // oversized to hide YouTube UI edges
+        height: 120%;
+        transform: translate(-50%, -50%);
+        pointer-events: none; // prevents interaction with iframe
+
+        .cf_video_iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    }
+
+    // Fallback backdrop image (when no trailer is available)
+    .cf_hero_backdrop {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    // Gradient overlay (sits on top of video/image)
+    .cf_hero_gradient {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, colormap(cf_bg_primary) 0%, transparent 50%),
+            linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, transparent 60%);
+        z-index: 1;
+    }
+
+    // Movie info (sits on top of everything)
     .cf_hero_content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        min-height: 85vh;
+        padding: 3rem 3rem 4rem;
         max-width: 36rem;
+
+        @include respond-to(mobile) {
+            min-height: 60vh;
+            padding: 2rem 1.5rem 3rem;
+        }
 
         h1 {
             font-size: 3rem;
             font-weight: 800;
             line-height: 1.15;
-            margin: 0 0 1rem;
+            margin: 0 0 0.75rem;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 
             @include respond-to(mobile) {
                 font-size: 2rem;
@@ -107,14 +155,79 @@
         }
 
         p {
-            font-size: 1.25rem;
+            font-size: 1rem;
             color: colormap(cf_text_secondary);
             line-height: 1.5;
-            margin: 0;
+            margin: 0 0 1rem;
+            display: -webkit-box;
+            line-clamp: 3;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
 
             @include respond-to(mobile) {
-                font-size: 1rem;
+                font-size: 0.875rem;
+                line-clamp: 2;
+                -webkit-line-clamp: 2;
             }
         }
+    }
+
+    .cf_hero_meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 0.875rem;
+        color: colormap(cf_text_secondary);
+
+        .cf_rating {
+            color: colormap(cf_status_success);
+            font-weight: 600;
+        }
+    }
+}
+
+// ── Now Playing Section ─────────────────────────────
+// NOTE: Grid styles removed as we are using MovieRow independent component
+
+
+// ── Loading State ───────────────────────────────────
+.cf_loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 0;
+    gap: 1rem;
+
+    .cf_spinner {
+        width: 2.5rem;
+        height: 2.5rem;
+        border: 3px solid colormap(cf_bg_tertiary);
+        border-top-color: colormap(cf_netflix_red);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+
+    p {
+        color: colormap(cf_text_secondary);
+        font-size: 0.875rem;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// ── Error State ─────────────────────────────────────
+.cf_error {
+    text-align: center;
+    padding: 3rem 0;
+
+    p {
+        color: colormap(cf_text_error);
+        font-size: 0.925rem;
     }
 }

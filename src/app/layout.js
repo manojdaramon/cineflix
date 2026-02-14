@@ -3,6 +3,7 @@ import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 import "./styles/globals.scss";
 import { AuthProvider } from "@/resources/context/auth-context";
+import QueryProvider from "@/resources/context/query-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -18,16 +19,24 @@ export const metadata = {
  * RootLayout
  *
  * SessionProvider  — NextAuth's React context (provides useSession)
- *   └─ AuthProvider — our custom context (provides useAuth)
+ *   └─ QueryProvider — TanStack Query cache (provides useQuery / useMutation)
+ *       └─ AuthProvider — our custom context (provides useAuth)
  *
  * SessionProvider MUST wrap AuthProvider because AuthProvider calls useSession().
+ * QueryProvider sits in between so queries can access the session if needed.
  */
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${inter.variable}`}>
         <SessionProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <QueryProvider>
+            <AuthProvider>
+              <div className="cf_app_container">
+                {children}
+              </div>
+            </AuthProvider>
+          </QueryProvider>
           <Toaster position="top-center" />
         </SessionProvider>
       </body>
