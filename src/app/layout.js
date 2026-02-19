@@ -32,9 +32,7 @@ export default function RootLayout({ children }) {
         <SessionProvider>
           <QueryProvider>
             <AuthProvider>
-              <div className="cf_app_container">
-                {children}
-              </div>
+              {children}
             </AuthProvider>
           </QueryProvider>
           <Toaster position="top-center" />

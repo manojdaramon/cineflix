@@ -2,6 +2,7 @@
 
 /** React imports */
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
 /** Libraries */
 import { useQuery } from "@tanstack/react-query";
@@ -14,6 +15,7 @@ import {
     TMDB_IMAGE_BASE,
 } from "@/resources/make-request/api-calls";
 import MovieRow from "@/resources/components/movie-row";
+import SearchBar from "@/resources/components/search-bar";
 
 /** Styles */
 import styles from "./home-page.module.scss";
@@ -81,6 +83,7 @@ const HomePage = () => {
             <nav className={`${styles.cf_home_nav} ${isScrolled ? styles.cf_home_nav_scrolled : ""}`}>
                 <h2 className={styles.cf_logo}>CINEFLIX</h2>
                 <div className={styles.cf_nav_right}>
+                    <SearchBar />
                     <span className={styles.cf_user_name}>
                         {user?.name || user?.email}
                     </span>
@@ -132,6 +135,15 @@ const HomePage = () => {
                                 {featuredMovie.release_date}
                             </span>
                         </div>
+
+                        <div className={styles.cf_hero_actions}>
+                            <button className={styles.cf_btn_play}>
+                                ▶ Play
+                            </button>
+                            <Link href={`/movie/${featuredMovie.id}`} className={styles.cf_btn_more_info}>
+                                ℹ More Info
+                            </Link>
+                        </div>
                     </div>
                 </section>
             )}
@@ -154,9 +166,11 @@ const HomePage = () => {
                 )}
 
                 {/* Movie Carousel */}
-                {!isLoading && !error && (
-                    <MovieRow title="Now Playing" movies={movies} />
-                )}
+                <div className="cf_app_container">
+                    {!isLoading && !error && (
+                        <MovieRow title="Now Playing" movies={movies} />
+                    )}
+                </div>
             </section>
         </div>
     );

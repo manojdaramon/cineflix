@@ -2,6 +2,7 @@
 
 /** React imports */
 import React from "react";
+import Link from "next/link";
 
 /** Libraries */
 import { TMDB_IMAGE_BASE } from "@/resources/make-request/api-calls";
@@ -39,9 +40,10 @@ const MovieRow = ({ title, movies = [] }) => {
                 {/* Auto-scrolling Row */}
                 <div className={styles.cf_movie_row}>
                     {loopedMovies.map((movie, index) => (
-                        <div
+                        <Link
                             // Use index in key because we have duplicates
                             key={`${movie.id}-${index}`}
+                            href={`/movie/${movie.id}`}
                             className={styles.cf_movie_card}
                         >
                             {movie.poster_path ? (
@@ -66,7 +68,7 @@ const MovieRow = ({ title, movies = [] }) => {
                                     <span>{movie.release_date?.split("-")[0]}</span>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
 

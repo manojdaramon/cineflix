@@ -1,0 +1,214 @@
+@use "../../styles/functions" as *;
+@use "../../styles/mixins" as *;
+
+// =====================================================
+// MOVIE DETAILS PAGE
+// =====================================================
+
+.cf_details_container {
+    min-height: 100vh;
+    background-color: colormap(cf_bg_primary);
+    color: colormap(cf_text_primary);
+    padding-bottom: 4rem;
+}
+
+// ── Hero Section ────────────────────────────────────
+.cf_hero {
+    position: relative;
+    height: 80vh;
+    width: 100%;
+    margin-bottom: 2rem;
+
+    @include respond-to(mobile) {
+        height: 60vh;
+    }
+
+    .cf_backdrop {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center top;
+        opacity: 0.6; // Darken for readability
+        mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+    }
+
+    .cf_hero_content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 4rem calc(4% + 2rem) 2rem; // Netflix-style padding
+        background: linear-gradient(to top, colormap(cf_bg_primary) 10%, transparent 100%);
+
+        @include respond-to(mobile) {
+            padding: 2rem 1.5rem;
+        }
+    }
+
+    h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+        @include respond-to(mobile) {
+            font-size: 2rem;
+        }
+    }
+
+    .cf_meta_row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 1.1rem;
+        color: colormap(cf_text_secondary);
+        margin-bottom: 1.5rem;
+
+        .cf_match {
+            color: colormap(cf_status_success);
+            font-weight: 700;
+        }
+
+        .cf_year {
+            color: colormap(cf_text_muted);
+        }
+
+        .cf_rating_box {
+            border: 1px solid colormap(cf_text_muted);
+            padding: 0 0.4em;
+            font-size: 0.8em;
+            color: colormap(cf_text_muted);
+        }
+    }
+
+    .cf_actions {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+
+        button {
+            padding: 0.8rem 2rem;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+
+            &.cf_btn_play {
+                background: colormap(cf_text_primary);
+                color: colormap(cf_netflix_black);
+
+                &:hover {
+                    background: rgba(255, 255, 255, 0.75);
+                }
+            }
+
+            &.cf_btn_secondary {
+                background: rgba(109, 109, 110, 0.7);
+                color: colormap(cf_text_primary);
+
+                &:hover {
+                    background: rgba(109, 109, 110, 0.4);
+                }
+            }
+        }
+    }
+
+    .cf_overview {
+        max-width: 50%;
+        font-size: 1.1rem;
+        line-height: 1.5;
+        color: colormap(cf_text_primary);
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+
+        @include respond-to(mobile) {
+            max-width: 100%;
+            font-size: 1rem;
+        }
+    }
+}
+
+// ── Content Sections ────────────────────────────────
+.cf_section {
+    padding: 2rem calc(4% + 2rem);
+
+    @include respond-to(mobile) {
+        padding: 1.5rem 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: colormap(cf_text_muted);
+    }
+}
+
+// ── Cast List ───────────────────────────────────────
+.cf_cast_list {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    scrollbar-width: none; // Firefox
+
+    &::-webkit-scrollbar {
+        display: none; // Chrome/Safari
+    }
+
+    .cf_cast_card {
+        flex: 0 0 140px;
+        background: colormap(cf_bg_secondary);
+        border-radius: 4px;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+        }
+
+        .cf_cast_info {
+            padding: 0.5rem;
+
+            p {
+                margin: 0;
+                font-size: 0.9rem;
+                font-weight: 600;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            span {
+                font-size: 0.8rem;
+                color: colormap(cf_text_muted);
+            }
+        }
+    }
+}
+
+// ── Back Button ─────────────────────────────────────
+.cf_back_btn {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    z-index: 50;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: background 0.2s;
+
+    &:hover {
+        background: rgba(0, 0, 0, 0.8);
+    }
+}

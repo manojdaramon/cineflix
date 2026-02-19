@@ -8,7 +8,6 @@
 .cf_home_wrapper {
     min-height: 100vh;
     width: 100%;
-    padding-top: $header-height; // Push content below the fixed navbar
     background-color: colormap(cf_bg_primary);
     color: colormap(cf_text_primary);
 }
@@ -84,11 +83,12 @@
 // ── Hero Section — Featured Movie with Trailer ─────
 .cf_hero {
     position: relative;
-    min-height: 85vh;
+    min-height: 100vh;
+    width: 100vw;
     overflow: hidden;
 
     @include respond-to(mobile) {
-        min-height: 60vh;
+        min-height: 70vh;
     }
 
     // YouTube video container — fills entire hero
@@ -133,13 +133,13 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        min-height: 85vh;
-        padding: 3rem 3rem 4rem;
+        min-height: 100vh;
+        padding: calc($header-height + 2rem) 3rem 4rem;
         max-width: 36rem;
 
         @include respond-to(mobile) {
-            min-height: 60vh;
-            padding: 2rem 1.5rem 3rem;
+            min-height: 70vh;
+            padding: calc($header-height + 1rem) 1.5rem 3rem;
         }
 
         h1 {
@@ -179,10 +179,53 @@
         gap: 1rem;
         font-size: 0.875rem;
         color: colormap(cf_text_secondary);
+        margin-bottom: 1.5rem; // Added spacing for buttons
 
         .cf_rating {
             color: colormap(cf_status_success);
             font-weight: 600;
+        }
+    }
+
+    .cf_hero_actions {
+        display: flex;
+        gap: 1rem;
+
+        a {
+            text-decoration: none;
+        }
+
+        button,
+        a {
+            padding: 0.6rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .cf_btn_play {
+            background: colormap(cf_text_primary);
+            color: colormap(cf_netflix_black);
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.75);
+            }
+        }
+
+        .cf_btn_more_info {
+            background: rgba(109, 109, 110, 0.7);
+            color: colormap(cf_text_primary);
+
+            &:hover {
+                background: rgba(109, 109, 110, 0.4);
+            }
         }
     }
 }

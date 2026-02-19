@@ -87,3 +87,55 @@ export const getMovieVideos = async (movieId) => {
         { token: TMDB_TOKEN }
     );
 };
+
+// ─────────────────────────────────────────────
+//  🔍 Movies — Search
+// ─────────────────────────────────────────────
+
+/**
+ * Searches for movies matching a query string.
+ *
+ * @param {string} query - The search term.
+ * @param {number} [page=1] - The page number to fetch.
+ * @returns {Promise<Object>} The search results data including results array.
+ */
+export const searchMovies = async (query, page = 1) => {
+    return makeRequest(
+        `${TMDB_BASE_URL}/search/movie?query=${encodeURIComponent(query)}&language=en-US&page=${page}`,
+        { token: TMDB_TOKEN }
+    );
+};
+
+// ─────────────────────────────────────────────
+//  👥 Movies — Credits / Cast
+// ─────────────────────────────────────────────
+
+/**
+ * Fetches the cast and crew for a given movie.
+ *
+ * @param {number} movieId - The TMDB movie ID.
+ * @returns {Promise<Object>} The credits data including cast and crew arrays.
+ */
+export const getMovieCredits = async (movieId) => {
+    return makeRequest(
+        `${TMDB_BASE_URL}/movie/${movieId}/credits?language=en-US`,
+        { token: TMDB_TOKEN }
+    );
+};
+
+// ─────────────────────────────────────────────
+//  🎬 Movies — Similar
+// ─────────────────────────────────────────────
+
+/**
+ * Fetches a list of similar movies based on the given movie.
+ *
+ * @param {number} movieId - The TMDB movie ID.
+ * @returns {Promise<Object>} The similar movies data including results array.
+ */
+export const getSimilarMovies = async (movieId) => {
+    return makeRequest(
+        `${TMDB_BASE_URL}/movie/${movieId}/similar?language=en-US&page=1`,
+        { token: TMDB_TOKEN }
+    );
+};
